@@ -7,18 +7,30 @@ const bookRouter = express.Router();
 const port = process.env.PORT || 3000;
 const Book = require('./models/bookModel');
 
-bookRouter.route('/books').get((req, res) => {
-  const query = {};
-  if (req.query.genre) {
-    query.genre = req.query.genre;
-  }
-  Book.find(query, (err, books) => {
-    if (err) {
-      return res.send(err);
+// Add middlewares for parsing JSON and urlencoded data and populating `req.body`
+app.use(express.urlencoded({ extended: false }));
+
+app.use(express.json());
+
+bookRouter
+  .route('/books')
+  .post((req, res) => {
+    const book = new Book(req.body);
+    console.log(book);
+    res.json(book);
+  })
+  .get((req, res) => {
+    const query = {};
+    if (req.query.genre) {
+      query.genre = req.query.genre;
     }
-    return res.json(books);
+    Book.find(query, (err, books) => {
+      if (err) {
+        return res.send(err);
+      }
+      return res.json(books);
+    });
   });
-});
 
 bookRouter.route('/books/:bookId').get((req, res) => {
   Book.findById(req.params.bookId, (err, book) => {
