@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "start":"nodemon app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,5 +19,16 @@
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1"
+  },
+  "nodemonConfig": {
+    "restartable": "yes",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "delay": "1500",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000
+    }
   }
 }
